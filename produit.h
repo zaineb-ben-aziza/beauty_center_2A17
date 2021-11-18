@@ -6,6 +6,7 @@
 #include<QSqlQueryModel>
 #include<QObject>
 #include<QTableView>
+#include <QDate>
 class Produit
 {
 public:
@@ -29,11 +30,32 @@ public:
     //functions
     bool ajouter();
     QSqlQueryModel * afficher();
+    QSqlQueryModel * affichere();
+
     bool suprimmer(int id_produit);
     bool modifier();
+   QSqlQueryModel* trie();
+        QSqlQueryModel* trier(const QString, const QString);
+        QSqlQueryModel* trie2();
+        QSqlQueryModel *chercher_pr(const QString &aux);
+        QSqlQueryModel *chercher_emp1(const QString &aux);
+        QSqlQueryModel *chercher_emp2(const QString &aux);
 private:
     int id_produit, nombre_produit;
     QString nom_produit, date_exp, type_produit;
+    QDate date;
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 #endif // PRODUIT_H

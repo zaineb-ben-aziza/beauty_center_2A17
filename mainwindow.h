@@ -26,6 +26,16 @@ private slots:
 
     void on_pb_modifier_clicked();
 
+    void on_pushButton_20_clicked();
+
+    void on_pushButton_22_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_18_clicked();
+
+    void on_pushButton_19_clicked();
+
 private:
     Ui::MainWindow *ui;
     Produit P;

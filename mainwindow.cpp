@@ -3,6 +3,9 @@
 #include "produit.h"
 #include <QIntValidator>
 #include <QMessageBox>
+#include <QIntValidator>
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -49,12 +52,13 @@ void MainWindow::on_pb_ajouter_clicked()
 void MainWindow::on_pb_supprimer_clicked()
 {
 
+
     Produit P1;P1.setId_produit(ui->le_supprimer->text().toInt());
     bool test = P1.suprimmer(P1.getId_produit());
     QMessageBox msgBox;
     if(test)
     {
-        ui->tab_produit->setModel(P.afficher());
+
         msgBox.setText("Suppression avec succes!");
     }
     else
@@ -62,6 +66,7 @@ void MainWindow::on_pb_supprimer_clicked()
         msgBox.setText("Echec de suppression");
     }
     msgBox.exec();
+     ui->tab_produit->setModel(P.afficher());
 }
 
 
@@ -106,4 +111,108 @@ void MainWindow::on_pb_modifier_clicked()
                 msgbox.setText("Echec de modification");
 
             msgbox.exec();
+}
+
+void MainWindow::on_pushButton_20_clicked()
+{
+    Produit e;
+    QString text;
+    if (ui->radioButton_ID->isChecked()==true)
+{
+text=ui->line_recherche_critere->text();
+     if(text == "")
+
+     {
+
+         ui->tableView_6->setModel(e.afficher());
+
+     }
+
+     else
+
+     {
+
+
+
+         ui->tableView_6->setModel(e.chercher_pr(text));
+
+     }
+    }
+     if(ui->radioButton_salaire->isChecked()==true)
+    {
+        text=ui->line_recherche_critere->text();
+             if(text == "")
+
+             {
+
+                 ui->tableView_6->setModel(e.afficher());
+
+             }
+
+             else
+
+             {
+
+
+
+                 ui->tableView_6->setModel(e.chercher_emp1(text));
+
+             }
+
+    }
+     else if     (ui->radioButton_nom->isChecked()==true)
+     {
+
+         text=ui->line_recherche_critere->text();
+              if(text == "")
+
+              {
+
+                  ui->tableView_6->setModel(e.afficher());
+
+              }
+
+              else
+
+              {
+
+
+
+                  ui->tableView_6->setModel(e.chercher_emp2(text));
+
+              }
+     }
+}
+
+void MainWindow::on_pushButton_22_clicked()
+{
+    Produit e;
+        QString mode;
+         if (ui->rb_asc_historique->isChecked()==true)
+    {
+             ui->tableView_6->setModel(e.trie());
+
+
+    }
+         else if(ui->rb_desc_historique->isChecked()==true)
+
+             ui->tableView_6->setModel(e.trie2());
+}
+
+
+
+void MainWindow::on_pushButton_18_clicked()
+{
+    Produit Etmp;
+
+    QMessageBox::critical(nullptr, QObject::tr("liste des produits finis"),
+                QObject::tr("voici la liste des produits qui riquent de finir.\n"
+                            "Click Cancel to exit."), QMessageBox::Cancel);
+
+    {ui->alerteperime->setModel(Etmp.affichere());}
+}
+
+void MainWindow::on_pushButton_19_clicked()
+{
+
 }

@@ -40,9 +40,9 @@ bool Produit::ajouter()
                         "VALUES (:id_produit, :nom_produit, TO_DATE(:date_exp, 'DD/MM/YYYY'), :type_produit, :nombre_produit)");
 
           query.bindValue(":id_produit", id_prod);
-          query.bindValue(":nombre_produit", nomb);
-          query.bindValue(":nom_produit", nom_produit);
           query.bindValue(":date_exp", date_exp);
+          query.bindValue(":nom_produit", nom_produit);
+          query.bindValue(":nombre_produit", nomb);
           query.bindValue(":type_produit", type_produit);
 
 
@@ -52,7 +52,7 @@ bool Produit::ajouter()
 QSqlQueryModel * Produit::afficher()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
-    model->setQuery("SELECT * from GC_PRODUIT");
+    model->setQuery("SELECT * from GC_PRODUIT ");
           model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
           model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
           model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
@@ -61,6 +61,34 @@ QSqlQueryModel * Produit::afficher()
 
     return model;
 }
+
+
+
+QSqlQueryModel * Produit::affichere()
+{
+
+
+    QSqlQueryModel * model = new QSqlQueryModel();
+    model->setQuery("SELECT * from GC_PRODUIT where nombre_produit < 10 ");
+
+
+
+          model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+          model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+          model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+          model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+          model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+
+
+
+
+
+
+
+    return model;
+}
+
+
 
 bool Produit::suprimmer(int id_produit)
 {
@@ -93,6 +121,77 @@ bool Produit::modifier()
 
 
 
+}
+
+QSqlQueryModel* Produit::trie()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+        model->setQuery("select *from GC_PRODUIT ORDER BY Id_produit asc");
+
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+
+
+    return model;
+}
+
+QSqlQueryModel* Produit::trie2(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+        model->setQuery("select *from GC_PRODUIT ORDER BY Id_produit desc");
+
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+    return model;
+}
+
+
+QSqlQueryModel * Produit::chercher_pr(const QString &aux)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    model->setQuery("select * from GC_PRODUIT where ((Id_produit ) LIKE '%"+aux+"%')");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+    return model;
+}
+
+
+QSqlQueryModel * Produit::chercher_emp1(const QString &aux)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    model->setQuery("select * from GC_PRODUIT where ((Nombre_produit ) LIKE '%"+aux+"%')");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+
+    return model;
+}
+
+QSqlQueryModel * Produit::chercher_emp2(const QString &aux)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    model->setQuery("select * from GC_PRODUIT where ((Nom_produit ) LIKE '%"+aux+"%')");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+    return model;
 }
 
 
