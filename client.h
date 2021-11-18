@@ -16,9 +16,13 @@ public:
     int get_tel_c();
     QString get_adresse_c();
 
-
+    bool rechercher(int);
+    void fidelite(int);
     bool ajouter();
+    void ajouterRec(QString);
     QSqlQueryModel * afficher();
+    QSqlQueryModel * afficherTri(QString);
+    QSqlQueryModel * stat();
     bool supprimer(int);
     bool modifier(int,int,QString,QString,int,QString);
 

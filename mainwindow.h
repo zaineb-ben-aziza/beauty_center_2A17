@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QDialog>
 #include <QObject>
-
+#include "rdv.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -36,8 +36,33 @@ private slots:
 
     void on_pushButton_quitter_clicked();
 
+    void on_pushButton_ajouter_c_2_clicked();
+
+    void on_pushButton_modifier_c_2_clicked();
+
+    void on_pushButton_supprimer_c_2_clicked();
+
+    void on_pushButton_rafraichir_2_clicked();
+
+    void on_pushButton_2_quitter_2_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     client tmp;
+    RDV tmprdv;
+
+
 };
 #endif // MAINWINDOW_H
