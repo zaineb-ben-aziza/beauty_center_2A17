@@ -2,7 +2,8 @@
 #include<QSqlQuery>
 #include <QSqlQueryModel>
 #include<QtDebug>
-#include<QObject>
+
+#include <QDateTime>
 Employes::Employes()
 {
    cin=0 ;
@@ -10,7 +11,7 @@ Employes::Employes()
     adresse=" ";
 
 }
-Employes::Employes(int cin_1 ,QString nom_1,QString prenom_1,QString date_de_naissance_1,QString numero_tel_1,QString service_1,QString adresse_1)
+Employes::Employes(int cin_1 , QString nom_1, QString prenom_1,QString date_de_naissance_1,QString numero_tel_1,QString service_1,QString adresse_1)
 {
     cin=cin_1;
     nom=nom_1;
@@ -84,14 +85,15 @@ bool Employes ::ajouter()
      }
          return 1 ;
   }
-bool Employes::modifier(int idd)
+bool Employes::modifier()
 {
 
 QSqlQuery query;
-QString res= QString::number(idd);
+
+
 query.prepare("Update GS_EMPLOYE set CIN = :cin , NOM = :nom , PRENOM = :prenom ,DATE_DE_NAISSANCE= :date_de_naissance ,  NUMERO_DE_TELEPHONE= :numero_tel , SERVICE=:service, ADRESSE=:adresse  where CIN= :cin ");
 
-query.bindValue(":cin", res);
+query.bindValue(":cin", cin);
 query.bindValue(":nom", nom);
 query.bindValue(":prenom", prenom);
 query.bindValue(":date_de_naissance", date_de_naissance);
@@ -113,6 +115,23 @@ bool Employes::supprimer(int cinn)
 
 
 }
+/*bool Employes::supprimer(int cinn)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * from GS_EMPLOYE where (CIN=:cin)");
+    query.bindValue(":cin",cin);
+    if(query.exec())
+    {if(query.next())
+       { query.prepare("Delete from GS_EMPLOYE where CIN=:CIN");
+        query.bindValue(":cin",cin);
+        query.exec();
+        return true;
+        }
+    }
+  return false;
+}
+*/
+
 
 
 QSqlQueryModel* Employes :: afficher()
@@ -135,4 +154,70 @@ QSqlQueryModel* Employes :: afficher()
 
     return model;
 }
+ QSqlQueryModel *Employes:: afficher_CIN()
+{
+  QSqlQueryModel *model=new QSqlQueryModel();
+        model->setQuery("SELECT * FROM GS_EMPLOYE ORDER BY  CIN");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("NOM"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr(" PRENOM"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("DATE_DE_NAISSANCE"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("NUMERO_DE_TELEPHONE"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr(" SERVICE "));
+          model->setHeaderData(4, Qt::Horizontal, QObject::tr(" ADRESSE "));
+        return model;
+}
+ QSqlQueryModel *Employes:: afficher_Nom()
+{
+  QSqlQueryModel *model=new QSqlQueryModel();
+        model->setQuery("SELECT * FROM GS_EMPLOYE ORDER BY  NOM");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr(" PRENOM"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("DATE_DE_NAISSANCE"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("NUMERO_DE_TELEPHONE"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr(" SERVICE "));
+          model->setHeaderData(4, Qt::Horizontal, QObject::tr(" ADRESSE "));
+        return model;
+}
 
+ QSqlQueryModel *Employes:: afficher_SERVICE()
+{
+  QSqlQueryModel *model=new QSqlQueryModel();
+        model->setQuery("SELECT * FROM GS_EMPLOYE ORDER BY  SERVICE");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr(" PRENOM"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("DATE_DE_NAISSANCE"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("NUMERO_DE_TELEPHONE"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr(" SERVICE "));
+          model->setHeaderData(4, Qt::Horizontal, QObject::tr(" ADRESSE "));
+        return model;
+}
+ QSqlQueryModel* Employes :: afficher1()
+ {
+
+   QSqlQueryModel *model=new QSqlQueryModel();
+
+
+
+    model->setQuery(QString("Select * from GS_EMPLOYE"));
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("  NOM    "));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("  PRENOM    "));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("   SERVICE   "));
+
+
+
+     return model;
+ }
+
+ void Employes::recherche(Ui::MainWindow *ui)
+ {
+     QSqlQuery q;
+     QSqlQueryModel *modal=new QSqlQueryModel();
+     QString mot =ui->lineEdit_recherche->text();
+     q.prepare("select * from GS_EMPLOYE where (NOM LIKE '%"+mot+"%' or CIN LIKE '%"+mot+"%' or SERVICE LIKE '%"+mot+"%' )");
+
+     q.exec() ;
+     modal->setQuery(q);
+     ui->tab_employe1->setModel(modal);
+
+ }

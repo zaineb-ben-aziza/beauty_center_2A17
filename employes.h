@@ -1,10 +1,23 @@
 #ifndef EMPLOYES_H
 #define EMPLOYES_H
-#include<QSqlQueryModel>
 #include<QString>
+#include<QSqlQueryModel>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QSqlQuery>
-#include "QMessageBox"
-
+#include <QSqlQueryModel>
+#include <QString>
+#include<QSqlDatabase>
+#include "conge.h"
+#include <QDate>
+#include <QDateTime>
+#include <QString>
+#include <QDialog>
+#include <QSqlQueryModel>
+#include <QMessageBox>
+#include <QSqlQuery>
+#include <QFile>
+#include <windows.h>
 class Employes
 {
 public:
@@ -33,12 +46,13 @@ public:
 
     bool ajouter();
     QSqlQueryModel* afficher();
+    QSqlQueryModel* afficher1();
     bool supprimer(int);
-    bool modifier(int );
-
-
-
-
+    bool modifier();
+   QSqlQueryModel* afficher_CIN();
+   QSqlQueryModel* afficher_Nom();
+   QSqlQueryModel* afficher_SERVICE();
+    void recherche(Ui::MainWindow *ui);
 private:
     int cin;
     QString nom,prenom,date_de_naissance,service,numero_tel,adresse;
