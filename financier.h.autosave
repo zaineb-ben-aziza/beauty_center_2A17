@@ -1,0 +1,18 @@
+#ifndef FINANCIER_H
+#define FINANCIER_H
+
+
+class financier
+{
+public:
+    financier();
+private:
+    int num_paiement;
+    int date_paiement;
+    float montant;
+    char type,type2;
+    
+    
+};
+
+#endif // FINANCIER_H
