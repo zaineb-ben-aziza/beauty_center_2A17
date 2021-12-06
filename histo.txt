@@ -1,0 +1,85 @@
+id:3245
+type :HGFD
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:FBVDC
+id:13245
+type :HGRFDS
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:BGFV
+id:
+type :
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:
+id:123
+type :
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:
+id:123
+type :CFGVHBN
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:23456
+id:123
+type :
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:
+id:9876543
+type : BVCX
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:123
+id:322457
+type :CGHVJBKN
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:435678
+id:1236789
+type :HYGTRFED
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:2345
+id:0101010
+type :YNHGBVFD
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:5435
+id:1918
+type :VUHCBDJKNXS
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:12345
+id:1224000
+type :FXDGHVJKL
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:2534657
+id:1212121
+type :GVHBJKNL?ML
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:123456
+id:1231231
+type :HBGVFRCDXS
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:121345
+id:1234554
+type :3RTEY
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:345546
+id:1234212
+type :TYGRFED
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:234567
+id:1234512
+type :JHNGBFVD
+debut:sam. janv. 1 2000
+fin:sam. janv. 1 2000
+prix:12345
