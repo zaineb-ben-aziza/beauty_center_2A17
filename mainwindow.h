@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include "produit.h"
+#include "fournisseur.h"
+#include "arduino.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,11 +36,17 @@ private slots:
 
     void on_pushButton_18_clicked();
 
-    void on_pushButton_19_clicked();
+    void on_pushButton_15_clicked();
+
+    void on_pdf_pb_clicked();
+
+    void on_pb_arduino_clicked();
 
 private:
     Ui::MainWindow *ui;
     Produit P;
+    fournisseur f;
+    Arduino A;
 };
 
 #endif // MAINWINDOW_H

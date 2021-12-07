@@ -55,9 +55,9 @@ QSqlQueryModel * Produit::afficher()
     model->setQuery("SELECT * from GC_PRODUIT ");
           model->setHeaderData(0, Qt::Horizontal, QObject::tr("Id_produit"));
           model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom_produit"));
-          model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_exp"));
+          model->setHeaderData(2, Qt::Horizontal, QObject::tr("Nombre_produit"));
           model->setHeaderData(3, Qt::Horizontal, QObject::tr("Type_produit"));
-          model->setHeaderData(4, Qt::Horizontal, QObject::tr("Nombre_produit"));
+          model->setHeaderData(4, Qt::Horizontal, QObject::tr("Date_exp"));
 
     return model;
 }
@@ -92,11 +92,20 @@ QSqlQueryModel * Produit::affichere()
 
 bool Produit::suprimmer(int id_produit)
 {
-    QSqlQuery query;
-          query.prepare("DELETE FROM GC_PRODUIT where id_produit =: id_prod");
-          query.bindValue(0, id_produit);
+    QSqlQuery q;
+    q.exec("SELECT * FROM GC_PRODUIT");
+    while(q.next())
+    {
+       if (q.value(0) == id_produit)
+       {
+           QSqlQuery query;
+                 query.prepare("DELETE FROM GC_PRODUIT where id_produit =: id_prod");
+                 query.bindValue(0, id_produit);
 
-    return query.exec();
+           return query.exec();
+       }
+    }
+    return false;
 }
 
 bool Produit::modifier()

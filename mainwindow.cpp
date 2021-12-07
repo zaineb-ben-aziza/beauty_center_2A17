@@ -4,7 +4,9 @@
 #include <QIntValidator>
 #include <QMessageBox>
 #include <QIntValidator>
-
+#include <QTextDocument>
+#include <QPrinter>
+#include <QPrintDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +15,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->le_id_produit->setValidator(new QIntValidator(0, 9999999, this));
     ui->le_nombre_produit->setValidator(new QIntValidator(0, 9999999, this));
+    ui->le_supprimer->setValidator(new QIntValidator(0, 9999999, this));
     ui->tab_produit->setModel(P.afficher());
+    
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+        switch(ret){
+        case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+            break;
+        case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+           break;
+        case(-1):qDebug() << "arduino is not available";}
 }
 
 MainWindow::~MainWindow()
@@ -212,7 +223,104 @@ void MainWindow::on_pushButton_18_clicked()
     {ui->alerteperime->setModel(Etmp.affichere());}
 }
 
-void MainWindow::on_pushButton_19_clicked()
+
+
+void MainWindow::on_pushButton_15_clicked()
 {
 
+        int id_fr = ui->lineEdit_7->text().toInt();
+        int num_tel = ui->lineEdit_9->text().toInt();
+        QString nom_fr = ui->lineEdit_8->text();
+
+        fournisseur f( id_fr, num_tel, nom_fr);
+        //ui->tab_produit->setModel(P.afficher());
+        bool test = f.ajouter();
+
+        if(test)
+        {
+            ui->tab_fournisseur->setModel(f.afficher());
+            QMessageBox::information(nullptr, QObject::tr("OK"),
+                        QObject::tr("Ajout effectué.\n"
+                                    "Click Ok to exit."), QMessageBox::Ok);
+
+        }
+        else
+            QMessageBox::critical(nullptr, QObject::tr("database is not open"),
+                        QObject::tr("Ajout non effectué.\n"
+                                    "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+
+
+
+void MainWindow::on_pdf_pb_clicked()
+{
+    QString strStream;
+        QTextStream out(&strStream);
+
+        const int rowCount = ui->tab_produit->model()->rowCount();
+        const int columnCount = ui->tab_produit->model()->columnCount();
+
+        out <<  "<html>\n"
+            "<head>\n"
+            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+            <<  QString("<title>%1</title>\n").arg("Produit")
+            <<  "</head>\n"
+            "<body bgcolor=#ffffff link=#5000A0>\n"
+            "<table border=1 cellspacing=0 cellpadding=2>\n";
+
+        // headers
+        out << "<thead><tr bgcolor=#f0f0f0>";
+        for (int column = 0; column < columnCount; column++)
+            if (!ui->tab_produit->isColumnHidden(column))
+                out << QString("<th>%1</th>").arg(ui->tab_produit->model()->headerData(column, Qt::Horizontal).toString());
+        out << "</tr></thead>\n";
+
+        // data table
+        for (int row = 0; row < rowCount; row++) {
+            out << "<tr>";
+            for (int column = 0; column < columnCount; column++) {
+                if (!ui->tab_produit->isColumnHidden(column)) {
+                    QString data = ui->tab_produit->model()->data(ui->tab_produit->model()->index(row, column)).toString().simplified();
+                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                }
+            }
+            out << "</tr>\n";
+        }
+        out <<  "</table>\n"
+            "</body>\n"
+            "</html>\n";
+
+        QTextDocument *document = new QTextDocument();
+        document->setHtml(strStream);
+
+        QPrinter printer;
+
+        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+        if (dialog->exec() == QDialog::Accepted) {
+            document->print(&printer);
+}}
+
+
+
+void MainWindow::on_pb_arduino_clicked()
+{
+QSqlQuery query;
+int nbr = 0;
+query.prepare("SELECT nombre_produit FROM gc_produit WHERE nom_produit = ?");
+query.addBindValue(ui->le_arduino->text());
+query.exec();
+
+if (query.next()) {
+    nbr = query.value(0).toInt();
+    qDebug()<<nbr;
+}
+if(nbr<10)
+    {
+         A.write_to_arduino(("1"));
+    }
+   else if(nbr>=10)
+    {
+         A.write_to_arduino(("0"));
+    }
 }
