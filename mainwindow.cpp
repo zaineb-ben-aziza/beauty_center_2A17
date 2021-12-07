@@ -5,6 +5,8 @@
 #include <QIntValidator>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
+#include "smptp.h"
+
 //pdf
 #include <QtPrintSupport/QPrinter>
 #include <QPixmap>
@@ -61,6 +63,26 @@
 #include<QVariant>
 #include <QDateTime>
 #include <QPrinter>
+//mailling
+#include <QPdfWriter>
+#include <QFileDialog>
+#include <QTextDocument>
+#include <QTextEdit>
+#include <QtSql/QSqlQueryModel>
+#include <QVector2D>
+#include <QVector>
+
+#include<QDesktopServices>
+#include<QUrl>
+#include <QPixmap>
+#include <QTabWidget>
+#include <QValidator>
+#include <QPrintDialog>
+#include<QtSql/QSqlQuery>
+#include<QVariant>
+#include <QDateTime>
+#include <QPrinter>
+
 #include"conge.h"
 //constructeur de la classe mainwindow generé automatiquement
 MainWindow::MainWindow(QWidget *parent) :
@@ -118,6 +140,12 @@ if(test)
 void MainWindow::on_pb_supprimer_clicked()
 {Employes E;
 
+    QSqlQueryModel *model=new QSqlQueryModel();
+  QString cin = ui->lineEdit_9->text();
+
+
+     model->setQuery(QString("Select * from GS_EMPLOYE where CIN="+cin));
+     if (model->rowCount() != 0){
     Employes E1; E1.setcin(ui->lineEdit_9->text().toInt());//convertir la chaine saisie en un entier car lattribut id est de type int
     bool test=E1.supprimer(E1.getcin());
 
@@ -131,11 +159,18 @@ void MainWindow::on_pb_supprimer_clicked()
    else
      msgBox.setText("Echec de suppression");
    msgBox.exec();
+     }
+     else {
+         QMessageBox msgBox;
+         msgBox.setText("employe nexiste pas");
+       msgBox.exec();
+     }
 
 }
 
 void MainWindow::on_pb_modifier_clicked()
 {       int cin=ui->le_cin2->text().toInt();
+        QString CIN=ui->le_cin2->text();
         QString nom=ui->le_nom2->text();
         QString prenom=ui->le_prenom2->text();
         QString date_de_naissance =ui->le_date2->text();
@@ -143,8 +178,10 @@ void MainWindow::on_pb_modifier_clicked()
         QString service =ui->le_service_2->text();
         QString adresse =ui->le_adresse2->text();
 
+   QSqlQueryModel *model=new QSqlQueryModel();
 
-
+     model->setQuery(QString("Select * from GS_EMPLOYE where CIN="+CIN));
+            if (model->rowCount() != 0){
 
         Employes E (cin , nom, prenom, date_de_naissance, numero_tel, service, adresse);
          bool test=E.modifier();
@@ -155,12 +192,19 @@ void MainWindow::on_pb_modifier_clicked()
        QMessageBox::information(nullptr, QObject::tr("modifier un employe"),
                          QObject::tr("employe modifié.\n"
                                      "Click Cancel to exit."), QMessageBox::Cancel);
-
        }
          else
              QMessageBox::critical(nullptr, QObject::tr("modifier un employe"),
                          QObject::tr("Erreur !.\n"
                                      "Click Cancel to exit."), QMessageBox::Cancel);
+
+            }
+            else {
+                QMessageBox msgBox;
+                msgBox.setText("employe nexiste pas");
+              msgBox.exec();
+            }
+
 
 
 
@@ -201,7 +245,7 @@ conge C(id_c,cin_c,date,duree,etat);
 
                  ui->tab_conge->setModel(C.afficher_c());
            QMessageBox::information(nullptr, QObject::tr("modifier un employe"),
-                             QObject::tr("employe modifié.\n"
+                             QObject::tr("conge modifié.\n"
                                          "Click Cancel to exit."), QMessageBox::Cancel);
 
            }
@@ -305,3 +349,54 @@ void MainWindow::on_pb_rechercher_clicked()
            E.recherche(ui);
 
 }
+void MainWindow::sendMail()
+{
+    Smtp* smtp = new Smtp("zaineb.benaziza@esprit.tn",ui->mail_pass->text(), "smtp.gmail.com");
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+    if( !files.isEmpty() )
+        smtp->sendMail("zaineb.benaziza@esprit.tn", ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText(), files );
+    else
+        smtp->sendMail("zaineb.benaziza@esprit.tn",ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText());
+}
+
+
+void MainWindow::mailSent(QString status)
+{
+    if(status == "Message sent")
+        QMessageBox::warning( nullptr, tr( "Qt Simple SMTP " ), tr( "Message sent!\n\n" ) );
+    ui->rcpt->clear();
+    ui->subject->clear();
+    ui->file->clear();
+    ui->msg->clear();
+    ui->mail_pass->clear();
+}
+
+
+
+
+void MainWindow::on_browseBtn_clicked()
+{ files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( "\"" + QFileInfo(file).fileName() + "\" " );
+
+    ui->file->setText( fileListString );
+
+}
+
+void MainWindow::on_sendBtn_clicked()
+{
+    connect(ui->sendBtn, SIGNAL(clicked()),this, SLOT(sendMail()));
+    QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+
+}
+

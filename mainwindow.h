@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 #include"employes.h"
 #include <QMainWindow>
+#include"arduino.h"
+
 #include"conge.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,21 +35,28 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
 
     void on_pushButton_4_clicked();
 
-    void on_pushButton_5_clicked();
 
+      void mailSent(QString status);
+       void  sendMail();
 
     void on_pb_rechercher_clicked();
+
+    void on_browseBtn_clicked();
+
+    void on_sendBtn_clicked();
+
 
 private:
     Ui::MainWindow *ui;
     //Employes E;
+    QStringList files;
     conge C;//ajout d'un attribut de la classe mainwindow pour pouvoir faire appel a la methode supprimer
+    Arduino A;
 };
 
 #endif // MAINWINDOW_H

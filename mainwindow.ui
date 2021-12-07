@@ -488,7 +488,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -982,11 +982,11 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
         <x>20</x>
         <y>0</y>
         <width>991</width>
-        <height>421</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
@@ -1077,7 +1077,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
         <property name="geometry">
          <rect>
           <x>180</x>
-          <y>140</y>
+          <y>130</y>
           <width>491</width>
           <height>231</height>
          </rect>
@@ -1110,6 +1110,19 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
         </property>
         <property name="text">
          <string>Boite Mail</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="sendBtn">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>370</y>
+          <width>651</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Send</string>
         </property>
        </widget>
       </widget>
