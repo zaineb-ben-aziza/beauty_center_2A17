@@ -3,10 +3,10 @@
 # Project created by QtCreator 2018-10-26T21:45:23
 #
 #-------------------------------------------------
-QT       += core gui sql printsupport  \
+QT       += core gui sql printsupport serialport  \
     quick
 
-#QT       += core gui sql \
+#QT       += core gui sql serialsupport \
     quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -28,17 +28,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    arduino.cpp \
     conge.cpp \
     employes.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    smptp.cpp
 
 HEADERS += \
+    arduino.h \
     conge.h \
     employes.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    smptp.h
 
 FORMS += \
         mainwindow.ui
